@@ -1,23 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PhotoController;
 
-Route::get('/hello', function () {
-    return "Hello World";
-});
+
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
+
+Route::get('/hello', [WelcomeController::class, 'hello']);
 
 Route::get('/world', function () {
     return "World";
 });
 
-Route::get('/',function(){
-    return "Selamat Datang";
-});
+Route::get('',[PageController::class, 'index']);
 
+Route::get('/about',[PageController::class, 'about']);
 
-Route::get('/about',function(){
-    return "Tri Aldy Kurniawan - 244107020098";
-});
+Route::get('/articles/{articles}',[PageController::class, 'articles']);
 
 Route::get('/user/{name?}', function ($name=null) {
     return 'Nama saya ' . $name;
@@ -47,17 +54,17 @@ Route::domain('{account}.example.com')->group(function () {
     });
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/post', [PostController::class, 'index']);
-    Route::get('/event', [EventController::class, 'index']);
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/user', [UserController::class, 'index']);
+//     Route::get('/post', [PostController::class, 'index']);
+//     Route::get('/event', [EventController::class, 'index']);
+// });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/post', [PostController::class, 'index']);
-    Route::get('/event', [EventController::class, 'index']);
-});
+// Route::prefix('admin')->group(function () {
+//     Route::get('/user', [UserController::class, 'index']);
+//     Route::get('/post', [PostController::class, 'index']);
+//     Route::get('/event', [EventController::class, 'index']);
+// });
 
 Route::redirect('/here', '/there');
 
