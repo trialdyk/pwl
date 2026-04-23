@@ -24,8 +24,22 @@ class PostForm
                     Section::make('Main Content')
                         ->icon('heroicon-o-document-text')
                         ->schema([
-                            TextInput::make('title')->required()->minLength(5),
-                            TextInput::make('slug')->required()->unique(ignoreRecord: true),
+                            TextInput::make('title')
+                                ->required()
+                                ->minLength(5)
+                                ->validationMessages([
+                                    'required' => 'Title wajib diisi',
+                                    'min' => 'Title minimal 5 karakter',
+                                ]),
+                            TextInput::make('slug')
+                                ->required()
+                                ->minLength(3)
+                                ->unique(ignoreRecord: true)
+                                ->validationMessages([
+                                    'required' => 'Slug wajib diisi',
+                                    'min' => 'Slug minimal 3 karakter',
+                                    'unique' => 'Slug sudah digunakan',
+                                ]),
                             MarkdownEditor::make('body')->columnSpanFull(),
                         ])->columns(2),
 
@@ -34,7 +48,11 @@ class PostForm
                         ->schema([
                             FileUpload::make('image')
                                 ->disk('public')
-                                ->directory('post'),
+                                ->directory('post')
+                                ->required()
+                                ->validationMessages([
+                                    'required' => 'Gambar wajib diupload',
+                                ]),
                         ])
                 ])->columnSpan(2),
 
