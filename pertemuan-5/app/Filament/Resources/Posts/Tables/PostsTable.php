@@ -42,8 +42,10 @@ class PostsTable
                     ->sortable()
                     ->searchable()
                     ->toggleable(),
-                TextColumn::make('tags')
+                TextColumn::make('tags.name')
                     ->label('Tags')
+                    ->badge()
+                    ->separator(',')
                     ->toggleable(isToggledHiddenByDefault: true),
                 ColorColumn::make('color')
                     ->toggleable(),

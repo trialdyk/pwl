@@ -8,7 +8,6 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Components\Group;
@@ -67,7 +66,10 @@ class PostForm
                                 ->preload()
                                 ->required(),
                             ColorPicker::make('color'),
-                            TagsInput::make('tags'),
+                            Select::make('tags')
+                                ->relationship('tags', 'name')
+                                ->multiple()
+                                ->preload(),
                             Checkbox::make('published'),
                             DatePicker::make('published_at'),
                         ])
