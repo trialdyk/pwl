@@ -62,9 +62,9 @@ class PostForm
                         ->schema([
                             Select::make('category_id')
                                 ->label('Category')
-                                ->options(
-                                    \App\Models\Category::all()->pluck('name', 'id')
-                                )
+                                ->relationship('category', 'name')
+                                ->searchable()
+                                ->preload()
                                 ->required(),
                             ColorPicker::make('color'),
                             TagsInput::make('tags'),
